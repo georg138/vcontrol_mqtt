@@ -17,6 +17,13 @@ def on_connect(client, userdata, flags, rc):
 def on_message(client, userdata, msg):
     print(msg.topic+" "+str(msg.payload))
 
+def on_set_message(client, userdata, msg: mqtt.MQTTMessage):
+    cmd = msg.topic.split("/").pop()
+    data = str(msg.payload)
+
+    res = subprocess.run(["vclient", "-c", f"'set{cmd} {data}"])
+    print(msg.topic+" "+str(msg.payload))
+
 client = mqtt.Client()
 client.on_connect = on_connect
 client.on_message = on_message
@@ -24,6 +31,7 @@ client.on_message = on_message
 client.connect("mqtt", 1883, 60)
 
 client.subscribe("vito/set/+")
+client.message_callback_add("vito/set/+", on_set_message)
 
 # Blocking call that processes network traffic, dispatches callbacks and
 # handles reconnecting.
