@@ -1,6 +1,7 @@
 cmd_file = open("command_definition")
 config_file = open("vito.xml", "w")
 vclient_file = open("commands", "w")
+openhab_file = open("openhab.yml", "w")
 
 config_file.write(
 '''<?xml version="1.0"?>
@@ -25,14 +26,24 @@ for line in cmd_file:
         rw = cmd[4]
         description = cmd[5] if len(cmd) > 5 else name
 
+        openhab_file.write(f'''
+  - id: {name}
+    channelTypeUID: mqtt:number
+    label: {name}
+    description: ""
+    configuration:
+''')
+
         for access in rw:
             if access == "r":
                 prefix = "get"
                 protocmd = "getaddr"
                 vclient_file.write(f'{prefix}{name}\n')
+                openhab_file.write(f'      stateTopic: vito/get/{name}\n')
             elif access == "w":
                 prefix = "set"
                 protocmd = "setaddr"
+                openhab_file.write(f'      commandTopic: vito/set/{name}\n')
             length = { "short": 2, "byte": 1, "bool" : 1 }[type]
             config_file.write(f'    <command name="{prefix}{name}" protocmd="{protocmd}">\n')
             config_file.write(f'      <addr>{address}</addr>\n')

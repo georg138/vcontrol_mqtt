@@ -13,7 +13,7 @@ WarmwassertemperaturSoll 6000 short UT rw
 Zirkulationspumpe 0490 bool ST r
 
 HeizkreispumpeStatus 048D bool ST r
-Betriebsmodus B000 byte BM rw
+Betriebsmodus B000 byte ST rw
 RaumtemperaturSoll 2000 short UT rw
 GradientHeizen 2007 short UN rw
 NiveauHeizen 2006 short UT rw
