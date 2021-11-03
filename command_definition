@@ -18,12 +18,11 @@ RaumtemperaturSoll 2000 short UT rw
 GradientHeizen 2007 short UN rw
 NiveauHeizen 2006 short UT rw
 
-GradientKuehlen 7110  short UN rw
-NiveauKuehlen 7111 short UT rw
+GradientKuehlen 2041  short UN rw
+NiveauKuehlen 2040 short UT rw
 KuehlungAktiv 71FE bool ST rw
 
 DreiWegeVentilStatus 0494 bool ST r
 SekundaerpumpeStatus 0484 bool ST r
 VentilatorStatus 0482 bool ST r
 VerdichterStatus 0480 bool ST r
-SpeicherladepumpeStatus 0496 bool ST r
