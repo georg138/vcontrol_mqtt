@@ -36,6 +36,7 @@ for line in cmd_file:
             length = { "short": 2, "byte": 1, "bool" : 1 }[type]
             config_file.write(f'    <command name="{prefix}{name}" protocmd="{protocmd}">\n')
             config_file.write(f'      <addr>{address}</addr>\n')
+            config_file.write(f'      <unit>{unit}</unit>\n')
             config_file.write(f'      <len>{length}</len>\n')
             config_file.write(f'      <description>{name}</description>\n')
             config_file.write(f'    </command>\n')
