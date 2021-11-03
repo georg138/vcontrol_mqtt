@@ -1,9 +1,11 @@
+#!/bin/python3
+
 import time
+import subprocess
 
 import paho.mqtt.client as mqtt
 import json
 
-teststring = '{"getTempA":25.600000,"getTempA":25.600000}'
 # The callback for when the client receives a CONNACK response from the server.
 def on_connect(client, userdata, flags, rc):
     print("Connected with result code "+str(rc))
@@ -23,10 +25,6 @@ client.connect("mqtt", 1883, 60)
 
 client.subscribe("vito/set/+")
 
-test = json.loads(teststring)
-for cmd, val in test.items():
-    client.publish("vito/get/" + cmd, val)
-
 # Blocking call that processes network traffic, dispatches callbacks and
 # handles reconnecting.
 # Other loop*() functions are available that give a threaded interface and a
@@ -34,6 +32,7 @@ for cmd, val in test.items():
 client.loop_start()
 
 while True:
-    for cmd, val in test.items():
+    res = subprocess.run(["vclient", "-f", "commands", "-j"], capture_output=True, text=True)
+    for cmd, val in json.loads(res.stdout).items():
         client.publish("vito/get/" + cmd, val)
-    time.sleep(1)
+    time.sleep(60)
