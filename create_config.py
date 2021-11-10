@@ -1,3 +1,4 @@
+#!/bin/python3
 cmd_file = open("command_definition")
 config_file = open("vito.xml", "w")
 vclient_file = open("commands", "w")
@@ -44,7 +45,7 @@ for line in cmd_file:
                 prefix = "set"
                 protocmd = "setaddr"
                 openhab_file.write(f'      commandTopic: vito/set/{name}\n')
-            length = { "short": 2, "byte": 1, "bool" : 1 }[type]
+            length = { "int": 4, "short": 2, "byte": 1, "bool" : 1 }[type]
             config_file.write(f'    <command name="{prefix}{name}" protocmd="{protocmd}">\n')
             config_file.write(f'      <addr>{address}</addr>\n')
             config_file.write(f'      <unit>{unit}</unit>\n')

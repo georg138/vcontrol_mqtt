@@ -1,28 +1,42 @@
 # Name                 Adresse Typ Einheit rw
-Aussentemperatur        0101 short UT r
-VorlauftemperaturSekundaer    0105 short UT r
-RuecklauftemperaturSekundaer 0106 short UT r
-VorlauftemperaturPrimaer    0103 short UT r
-RuecklauftemperaturPrimaer    0104 short UT r
-DifferenztemperaturHeizgrenze 7003 short UT rw
-DifferenztemperaturKuehlgrenze 7004 short UT rw
-VorlauftemperaturSoll 1800 short UT r
+Aussentemperatur        0101 short Temperature10 r
+VorlauftemperaturSekundaer    0105 short Temperature10 r
+RuecklauftemperaturSekundaer 0106 short Temperature10 r
+VorlauftemperaturPrimaer    0103 short Temperature10 r
+RuecklauftemperaturPrimaer    0104 short Temperature10 r
+DifferenztemperaturHeizgrenze 7003 short Temperature10 rw
+DifferenztemperaturKuehlgrenze 7004 short Temperature10 rw
+VorlauftemperaturSoll 1800 short Temperature10 r
 
-WarmwassertemperaturAktuell 010D short UT r
-WarmwassertemperaturSoll 6000 short UT rw
-Zirkulationspumpe 0490 bool ST r
+WarmwassertemperaturAktuell 010D short Temperature10 r
+WarmwassertemperaturSoll 6000 short Temperature10 rw
+Zirkulationspumpe 0490 bool Switch r
 
-HeizkreispumpeStatus 048D bool ST r
-Betriebsmodus B000 byte ST rw
-RaumtemperaturSoll 2000 short UT rw
-GradientHeizen 2007 short UN rw
-NiveauHeizen 2006 short UT rw
+HeizkreispumpeStatus 048D bool Switch r
+Betriebsmodus B000 byte Char rw
+RaumtemperaturSoll 2000 short Temperature10 rw
+GradientHeizen 2007 short Short10 rw
+NiveauHeizen 2006 short Temperature10 rw
 
-GradientKuehlen 2041  short UN rw
-NiveauKuehlen 2040 short UT rw
-KuehlungAktiv 71FE bool ST rw
+GradientKuehlen 2041  short Short10 rw
+NiveauKuehlen 2040 short Temperature10 rw
+KuehlungAktiv 71FE bool Char rw
 
-DreiWegeVentilStatus 0494 bool ST r
-SekundaerpumpeStatus 0484 bool ST r
-VentilatorStatus 0482 bool ST r
-VerdichterStatus 0480 bool ST r
+DreiWegeVentilStatus 0494 bool Switch r
+SekundaerpumpeStatus 0484 bool Switch r
+VentilatorStatus 0482 bool Switch r
+VerdichterStatus 0480 bool Switch r
+
+#COPHeizen 1690 short Short10 r
+#COPWarmwasser 1691 short Short10 r
+JAZGesamt 1680 byte JAZ r
+JAZHeizen 1681 byte JAZ r
+JAZWarmwasser 1682 byte JAZ r
+EnergieWaermeHeizen 1640 int Energy10 r
+EnergieWaermeWarmwasser 1650 int Energy10 r
+EnergieElektrischHeizen 1660 int Energy10 r
+EnergieElektrischWarmwasser 1670 int Energy10 r
+
+WAZ 16D0 short Short10 r
+
+PvEnergie 7E00 bool Char rw

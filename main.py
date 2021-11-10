@@ -37,7 +37,7 @@ client = mqtt.Client()
 client.on_connect = on_connect
 client.on_message = on_message
 
-client.connect("mqtt", 1883, 60)
+client.connect("192.168.2.102", 1883, 60)
 
 client.subscribe("vito/set/+")
 client.message_callback_add("vito/set/+", on_set_message)
@@ -87,15 +87,34 @@ while True:
         cmds.pop(cmd)
     if loop_timer == 0:
         print("Reading")
-        res = subprocess.run(["vclient", "-f", "commands", "-j"], capture_output=True, text=True)
-        errors = get_errors(res.stderr)
-        for cmd, val in json.loads(res.stdout).items():
-            cmd = remove_prefix(cmd, "get")
-            if not cmd in errors:
-                client.publish("vito/get/" + cmd, val)
-                #print(f"{cmd}: {val}")
-            else:
-                print(f"Discard {cmd}: {val}")
+        '''
+        try:
+            res = subprocess.run(["vclient", "-f", "commands", "-j"], capture_output=True, text=True)
+            errors = get_errors(res.stderr)
+            for cmd, val in json.loads(res.stdout).items():
+                cmd = remove_prefix(cmd, "get")
+                if not cmd in errors:
+                    client.publish("vito/get/" + cmd, val)
+                    #print(f"{cmd}: {val}")
+                else:
+                    print(f"Discard {cmd}: {val}")
+        except:
+            pass
+            '''
+        try:
+            res = subprocess.run(["vclient", "-f", "commands", "-J"], capture_output=True, text=True)
+            #print(res.stdout.strip().replace("\n", "\\n"))
+            errors = get_errors(res.stderr)
+            for item in json.loads(res.stdout.strip().replace("\n", "\\n")):
+                cmd = remove_prefix(item["command"], "get")
+                if not item["error"]:
+                    client.publish("vito/getJson/" + cmd, json.dumps(item))
+                    client.publish("vito/get/" + cmd, item["value"])
+                else:
+                    client.publish("vito/getJsonError/" + cmd, json.dumps(item))
+        except Exception as e:
+            print(e)
+            pass
         loop_timer = 60
     else:
         loop_timer = loop_timer - 1
